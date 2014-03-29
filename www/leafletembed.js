@@ -221,7 +221,7 @@ function initmap() {
     "OpenStreetMap": osmTiles
   };
 
-  // start the map in Paris
+  // start the map in default position
   map.setView(new L.LatLng(initialLat,initialLon),initialZoom);
   if (isMobile && initialIsDefault) {
     map.on('locationfound', onLocationFound);
@@ -254,7 +254,7 @@ function askForPlots() {
   var minll=bounds.getSouthWest();
   var maxll=bounds.getNorthEast();
   var size=map.getSize();
-  var msg='camera.php?bbox='+minll.lng+','+minll.lat+','+maxll.lng+','+maxll.lat+'&zoom='+map.getZoom()+'&width='+size.x+'&height='+size.y+'&debug='+debug;
+  var msg='getwifi.php?bbox='+minll.lng+','+minll.lat+','+maxll.lng+','+maxll.lat+'&zoom='+map.getZoom()+'&width='+size.x+'&height='+size.y+'&debug='+debug;
   ajaxRequest.onreadystatechange = stateChanged;
   ajaxRequest.open('GET', msg, true);
   ajaxRequest.send(null);

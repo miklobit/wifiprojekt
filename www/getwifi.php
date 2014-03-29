@@ -315,16 +315,16 @@ function writeToFile($file, $content){
    }
 
    if ($rqtLonMin >= -180 && $lonMax <= 180) {
-     $sql="SELECT  id, latitude, longitude
-             FROM  position
-            WHERE  latitude  between ? and ?
-              AND  longitude between ? and ?";
+     $sql="SELECT  id, lat, lot
+             FROM  punkty
+            WHERE  lat between ? and ?
+              AND  lot between ? and ?";
 
    } else {
-     $sql="SELECT  id, latitude, longitude
-             FROM  position
-            WHERE  latitude  between ? and ?
-              AND  (longitude between ? and 1800000000 OR longitude between -1800000000 and ?)";
+     $sql="SELECT  id, lat, lot
+             FROM  punkty
+            WHERE  lat  between ? and ?
+              AND  (lot between ? and 180 OR lot between -180 and ?)";
 
      while ($rqtLonMin < -180) {
        $rqtLonMin += 360;
@@ -333,12 +333,13 @@ function writeToFile($file, $content){
        $rqtLonMax -= 360;
      }
    }
-
+/*
    $rqtLonMin = bcmul($rqtLonMin, 10000000, 0);
    $rqtLonMax = bcmul($rqtLonMax, 10000000, 0);
    $rqtLatMin = bcmul($latMin, 10000000, 0);
    $rqtLatMax = bcmul($latMax, 10000000, 0);
-
+*/
+   
    $resArray = array();
    $nbFetch=0;
 
@@ -351,10 +352,10 @@ function writeToFile($file, $content){
 
      while ($stmt->fetch()) {
        $nbFetch++;
-
+/*
        $latitude = bcdiv($latitude, 10000000, 7);
        $longitude = bcdiv($longitude, 10000000, 7);
-
+*/
        while ($longitude < $lonMin) {
          $longitude += 360;
        }
@@ -395,7 +396,7 @@ function writeToFile($file, $content){
    } else {
      $mysqli->close();
      header('Content-type: application/json');
-     $resultat='{"erreur":"Erreur de préparation de la requête : ' . $mysqli->error . '"}';
+     $resultat='{"error":"Error preparing request : ' . $mysqli->error . '"}';
      echo $resultat;
      exit;
    }

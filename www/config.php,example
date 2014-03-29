@@ -7,6 +7,6 @@ define('DEFAULT_LON', 17.03516);
 define('MYSQL_HOST', 'localhost');
 define('MYSQL_DB', 'wifiprojekt');
 define('MYSQL_USER', 'wifiprojekt');
-define('MYSQL_PASSWD', null);
+define('MYSQL_PASSWD', '****');
 
 ?>

@@ -76,13 +76,13 @@
 <head>
   <meta charset="UTF-8"/>
   <?php
-    if ($language == "fr") { 
+    if ($language == "pl") { 
   ?>
-    <title>La carte de la vidéosurveillance (extraite d'OpenStreetMap)</title>
+    <title>Mapa punktów wifi</title>
   <?php
     } else {
   ?>
-    <title>The CCTV map (extracted from OpenStreetMap)</title>
+    <title>Wifi hotspot map</title>
   <?php
     }
   ?>
@@ -103,7 +103,7 @@
 <!--[if lte IE 8]>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.ie.css" />
 <![endif]-->
-<link rel="stylesheet" href="Icon.Label.css" />
+<link rel="stylesheet" href="Icon_Label.css" />
 
 <style>
 body {
@@ -126,7 +126,7 @@ html, body {
     width: 100%;
 }
 #map {
-    height: 75%;
+    height: 90%;
     width: 100%;
 }
 <?php
@@ -169,7 +169,7 @@ html, body {
 ?>
 </script>
 <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
-<script src="Icon.Label.js"></script>
+<script src="Icon_Label.js"></script>
 
 <div id="map"></div>
 
