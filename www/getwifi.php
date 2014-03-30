@@ -11,14 +11,20 @@
 	 var $ssid;
      var $bssid; 
 	 var $crypt;
+	 var $mode;
+	 var $kanal;
+	 var $rxl;
 
-     function __construct($valId, $valLat, $valLon, $valssid, $valbssid, $valcrypt) {
+     function __construct($valId, $valLat, $valLon, $valssid, $valbssid, $valcrypt, $valmode, $valkanal, $valrxl) {
        $this->id = $valId;
        $this->lat = $valLat;
        $this->lon = $valLon;
 	   $this->ssid = $valssid;
 	   $this->bssid = $valbssid;
 	   $this->crypt = $valcrypt;
+	   $this->mode = $valmode;	
+	   $this->kanal = $valkanal;
+	   $this->rxl = $valrxl;	   
      }
    }
 
@@ -322,14 +328,16 @@ function writeToFile($file, $content){
 
    if ($rqtLonMin >= -180 && $lonMax <= 180) {
      $sql="SELECT  id, latitude, longitude,
-	               ssid, bssid, crypt
+	               ssid, bssid, crypt,
+				   mode, kanal, rxl
              FROM  punkty
             WHERE  latitude  between ? and ?
               AND  longitude between ? and ?";
 
    } else {
      $sql="SELECT  id, latitude, longitude,
-	 	           ssid, bssid, crypt
+	 	           ssid, bssid, crypt,
+				   mode, kanal, rxl
              FROM  punkty
             WHERE  latitude  between ? and ?
               AND  (longitude between ? and 1800000000 OR longitude between -1800000000 and ?)";
@@ -355,7 +363,7 @@ function writeToFile($file, $content){
 
      $stmt->execute();
 
-     $stmt->bind_result($id, $latitude, $longitude, $ssid, $bssid, $crypt);
+     $stmt->bind_result($id, $latitude, $longitude, $ssid, $bssid, $crypt, $mode, $kanal, $rxl);
 
      while ($stmt->fetch()) {
        $nbFetch++;
@@ -372,7 +380,7 @@ function writeToFile($file, $content){
 
        /* init points counter */
        if ($zoom >= $GRID_MAX_ZOOM) {
-         array_push($resArray, array('points' => array(new OsmPoint($id, $latitude, $longitude, $ssid, $bssid, $crypt)), 
+         array_push($resArray, array('points' => array(new OsmPoint($id, $latitude, $longitude, $ssid, $bssid, $crypt, $mode, $kanal, $rxl)), 
                                      'latitude' => $latitude, 
                                      'longitude' => $longitude, 
                                      'count' => 1 ));
@@ -388,7 +396,7 @@ function writeToFile($file, $content){
                                    'grid' => $pos);
          } 
 
-         $elt = new OsmPoint($id, $latitude, $longitude, $ssid, $bssid, $crypt);
+         $elt = new OsmPoint($id, $latitude, $longitude, $ssid, $bssid, $crypt, $mode, $kanal, $rxl);
          array_push($resArray[$pos]['points'], $elt);
 
          /* Increment points counter */
@@ -476,9 +484,15 @@ function writeToFile($file, $content){
          $resultat=$resultat
                   .',"ssid":"'.$ssid.'"';
          $resultat=$resultat
-                  .',"bssid":"'.$bssid.'"';
+                  .',"MAC":"'.$bssid.'"';
          $resultat=$resultat
-                  .',"crypt":"'.$crypt.'"';				  
+                  .',"crypt":"'.$crypt.'"';		
+         $resultat=$resultat
+                  .',"mode":"'.$mode.'"';	
+         $resultat=$resultat
+                  .',"canal":"'.$kanal.'"';	
+         $resultat=$resultat
+                  .',"sig":"'.$rxl.'"';					  
 
        } else {
          $resultat=$resultat
