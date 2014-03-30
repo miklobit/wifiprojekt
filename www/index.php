@@ -177,7 +177,7 @@ html, body {
 if ($isMobile) {
 ?>
 <div id="moreInfo" style="position:fixed;top:5px;right:5px">
-<a href="index.php?infos=yes"/><img src="images/infos.png" width="35"/></a>
+<a href="index.php?infos=yes"/><img src="images/infos.png" width="20"/></a>
 </div>
 <?php
 }
@@ -192,7 +192,7 @@ if ($showText) {
   if ($isMobile) {
 ?>
 <div style="width:100%;text-align:center;background:SeaGreen"/>
-<a href="index.php" style="color:white;font-size:200%">Retour à la carte / <i>Back to the map</i></a>
+<a href="index.php" style="color:white;font-size:200%">Back to the map</a>
 </div>
 <?php    
 } 

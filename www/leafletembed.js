@@ -89,13 +89,13 @@ function initmap() {
 
   // create the tile layers with correct attribution
   var permalink=' — <a href=#" onClick="permalink();return false;">Permalink</a>';
-  var dataAttrib='Map data from <a href="http://www.osm.org" target="_blank">OpenStreetMap</a> contributors';
+  var dataAttrib='Map data (c) <a href="http://www.osm.org" target="_blank">OpenStreetMap</a> contributors';
 
   var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   var osmAttrib=dataAttrib + permalink;
   osmTiles = new L.TileLayer(osmUrl, {minZoom: 4, maxZoom: 18, attribution: osmAttrib});		
   var mapQuestUrl='http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png'; 
-  var mapQuestAttrib='Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png"> — ' + dataAttrib + permalink;
+  var mapQuestAttrib='Tiles: <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> - ' + dataAttrib + permalink;
   mapQuestTiles = new L.TileLayer(mapQuestUrl, {minZoom: 4, maxZoom: 18, attribution: mapQuestAttrib, subdomains: '1234'});		
 
   var baseLayers = {
@@ -210,7 +210,7 @@ function stateChanged() {
             iconName = 'green';
           } else if (plotlist[i]['crypt'] == 'WPA2') {
             iconName = 'red';
-          } else if (plotlist[i]['crypt'] == 'WpaPsk') {
+          } else if (plotlist[i]['crypt'] == 'WpaPsk	') {
             iconName = 'red';			
           } else if (plotlist[i]['crypt'] == 'Wep') {
             iconName = 'orange';
