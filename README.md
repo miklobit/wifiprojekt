@@ -2,6 +2,7 @@ wifiprojekt
 ===========
 
 OSM based map for http://wifiprojekt.eu<br/>
-Base code forked from https://github.com/khris78/osmcamera
+Code forked from https://github.com/khris78/osmcamera
+Test page: http://wifiprojekt.miklobit.pl
 
 
