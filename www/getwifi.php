@@ -370,7 +370,7 @@ function writeToFile($file, $content){
          $longitude -= 360;
        }
 
-       /* initialisation du point courant */
+       /* init points counter */
        if ($zoom >= $GRID_MAX_ZOOM) {
          array_push($resArray, array('points' => array(new OsmPoint($id, $latitude, $longitude, $ssid, $bssid, $crypt)), 
                                      'latitude' => $latitude, 
@@ -391,7 +391,7 @@ function writeToFile($file, $content){
          $elt = new OsmPoint($id, $latitude, $longitude, $ssid, $bssid, $crypt);
          array_push($resArray[$pos]['points'], $elt);
 
-         /* Incrément du nombre de points */
+         /* Increment points counter */
          $resArray[$pos]['count']++;
          $resArray[$pos]['latitude'] += $latitude;
          $resArray[$pos]['longitude'] += $longitude;
@@ -403,7 +403,7 @@ function writeToFile($file, $content){
    } else {
      $mysqli->close();
      header('Content-type: application/json');
-     $resultat='{"erreur":"Erreur de préparation de la requête : ' . $mysqli->error . '"}';
+     $resultat='{"error":"Error preparing sql request : ' . $mysqli->error . '"}';
      echo $resultat;
      exit;
    }
@@ -422,7 +422,7 @@ function writeToFile($file, $content){
    $resultat='['; 
    $separateur='';
 
-   /* Ecriture des rectangles de regroupement */
+   /* Overlay grid */
    if ($debug == 'yes') {
      $resultat = $resultat.'{"nbFetch":"' . $nbFetch . '",' 
                           . '"bbox":"[' . $bbox[0] . ', ' . $bbox[1] . ', ' 
@@ -457,18 +457,8 @@ function writeToFile($file, $content){
      }
    }
 
-   /* Ecriture des points sélectionnés */
-/*   
-   $sql="SELECT  k, v 
-           FROM  tag
-          WHERE  id = ?
-            AND  k NOT IN ('lat', 'lon')";
 
-   $stmt = $mysqli->prepare($sql);
-   $stmt->bind_param("d", $id);
-   $stmt->bind_result($k, $v);
- */
-   /* Ecriture des points regroupés ou non */
+   /* Write data for clustered and single points */
    foreach($resArray as $val) {
      if ($val['count'] > 0) {
        $resultat=$resultat.$separateur
@@ -476,18 +466,20 @@ function writeToFile($file, $content){
                 .',"lon":"' . ($val['longitude'] / $val['count']) . '"';
 
        if ($val['count'] == 1) {
-/*      
+      
          $id = $val['points'][0]->id;
+		 $ssid = $val['points'][0]->ssid;
+		 $bssid = $val['points'][0]->bssid;
+		 $crypt = $val['points'][0]->crypt;		 
          $resultat=$resultat
                   .',"id":"'.$id.'"';
+         $resultat=$resultat
+                  .',"ssid":"'.$ssid.'"';
+         $resultat=$resultat
+                  .',"bssid":"'.$bssid.'"';
+         $resultat=$resultat
+                  .',"crypt":"'.$crypt.'"';				  
 
-         $stmt->execute();
-
-         while($stmt->fetch()) {
-           $resultat=$resultat
-                    .',"'.htmlentities($k).'":"'.htmlentities($v, ENT_COMPAT, 'UTF-8').'"';
-         }
-*/
        } else {
          $resultat=$resultat
                   .',"count":"'.$val['count'].'"'
@@ -512,9 +504,7 @@ function writeToFile($file, $content){
        $separateur=',';
      }
    }
- /*  
-   $stmt->close();
-*/
+
    $resultat = $resultat . ']';
 
    $mysqli->close();
