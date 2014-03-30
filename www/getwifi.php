@@ -4,6 +4,7 @@
 
    define('MAX_POINTS_FOR_QUICKHULL', 3000);
 
+   
    class OsmPoint {
      var $id;
      var $lat;
@@ -309,9 +310,10 @@ function writeToFile($file, $content){
    $divHeight= $latHeight / $divHCount;
    $divDiag2=($divWidth * $divWidth) + ($divHeight * $divHeight);
 
-   $mysqli = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWD, MYSQL_DB);
+   $mysqli = new mysqli($mysql_host, $mysql_user, $mysql_passwd, $mysql_db, $mysql_port);
    if($mysqli->connect_errno) {
-     header('Content-type: application/json');
+       header('Content-type: application/json');
+//     header('Content-type: text/html');
      $result='{"error":"Error while connecting to db : ' . $mysqli->error . '"}';
      echo $result;
      exit;
