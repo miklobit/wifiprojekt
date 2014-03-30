@@ -16,152 +16,34 @@ var MultiIcon = L.Icon.Label.extend({
   }
 });
 
-var speedCameraIcon = L.icon({
-  iconUrl: 'images/speedCamera.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
+var blackIcon = L.icon({
+  iconUrl: 'images/icon_black.png',
+  iconSize: [10, 10],
+  iconAnchor: [5, 5],
+  popupAnchor : [0, -5]
 });
 
-var fixedIcon = L.icon({
-  iconUrl: 'images/fixed.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
+var greenIcon = L.icon({
+  iconUrl: 'images/icon_green.png',
+  iconSize: [10, 10],
+  iconAnchor: [5, 5],
+  popupAnchor : [0, -5]
 });
 
-var domeIcon = L.icon({
-  iconUrl: 'images/dome.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
+var redIcon = L.icon({
+  iconUrl: 'images/icon_red.png',
+  iconSize: [10, 10],
+  iconAnchor: [5, 5],
+  popupAnchor : [0, -5]
 });
 
-var guardIcon = L.icon({
-  iconUrl: 'images/guard.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
+var orangeIcon = L.icon({
+  iconUrl: 'images/icon_orange.png',
+  iconSize: [10, 10],
+  iconAnchor: [5, 5],
+  popupAnchor : [0, -5]
 });
 
-var fixedBlueIcon = L.icon({
-  iconUrl: 'images/fixedBlue.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var domeBlueIcon = L.icon({
-  iconUrl: 'images/domeBlue.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var guardBlueIcon = L.icon({
-  iconUrl: 'images/guardBlue.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var fixedGreenIcon = L.icon({
-  iconUrl: 'images/fixedGreen.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var domeGreenIcon = L.icon({
-  iconUrl: 'images/domeGreen.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var guardGreenIcon = L.icon({
-  iconUrl: 'images/guardGreen.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var fixedRedIcon = L.icon({
-  iconUrl: 'images/fixedRed.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var domeRedIcon = L.icon({
-  iconUrl: 'images/domeRed.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var guardRedIcon = L.icon({
-  iconUrl: 'images/guardRed.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var todo_fixedIcon = L.icon({
-  iconUrl: 'images/Todo-fixed.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var todo_domeIcon = L.icon({
-  iconUrl: 'images/Todo-dome.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var todo_fixedBlueIcon = L.icon({
-  iconUrl: 'images/Todo-fixedBlue.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var todo_domeBlueIcon = L.icon({
-  iconUrl: 'images/Todo-domeBlue.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var todo_fixedGreenIcon = L.icon({
-  iconUrl: 'images/Todo-fixedGreen.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var todo_domeGreenIcon = L.icon({
-  iconUrl: 'images/Todo-domeGreen.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var todo_fixedRedIcon = L.icon({
-  iconUrl: 'images/Todo-fixedRed.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
-
-var todo_domeRedIcon = L.icon({
-  iconUrl: 'images/Todo-domeRed.png',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  popupAnchor : [0, -10]
-});
 
 function onClick(e) {
   e.target.bindPopup(e.target.data, {autoPan:false,maxWidth:400})
@@ -322,113 +204,23 @@ function stateChanged() {
         } else {
           try {
           plotll = new L.LatLng(plotlist[i].lat,plotlist[i].lon, true);
-          var iconName = 'fixed';
-          if (plotlist[i]['camera:type'] == 'dome') {
-            iconName = 'dome';
-          } else if (plotlist[i]['surveillance:type'] == 'guard') {
-            iconName = 'guard';
-          }
-          if (plotlist[i]['fixme'] != null) {
-            iconName = 'todo_' + iconName;
-          }
-          var type = plotlist[i]['surveillance']; 
-          if (type == 'public') {
-            iconName = iconName + 'Red';
-          } else if (type == 'indoor' ) {
-            iconName = iconName + 'Green';
-          } else if (type == 'outdoor' ) {
-            iconName = iconName + 'Blue';
-          } else if (type == 'red_light' || type == 'level_crossing' || type == 'speed_camera') {
-            iconName = 'speedCamera';
-          }
+//          var iconName = 'fixed';
+		  var iconName = 'black';
+          if (plotlist[i]['crypt'] == 'Open') {
+            iconName = 'green';
+          } else if (plotlist[i]['crypt'] == 'WPA2') {
+            iconName = 'red';
+          } else if (plotlist[i]['crypt'] == 'Wep') {
+            iconName = 'orange';
+          } 
+		  
           iconName = iconName + 'Icon';
           theIcon = eval(iconName);
           plotmark = new L.Marker(plotll, {icon : theIcon});
 
-          var cameraHeight = plotlist[i]['height'];
-          if (! isNumeric(cameraHeight)) {
-            cameraHeight = 5;
-          } else if (cameraHeight < 3) {
-            cameraHeight=3;
-          } else if (cameraHeight > 12) {
-            cameraHeight=12;
-          }
-
-          var cameraType = plotlist[i]['camera:type'];
-          if (cameraType == 'fixed' || cameraType == 'static') {
-            direction = plotlist[i]['camera:direction'];
-            if (direction == null) {
-              direction = plotlist[i]['direction'];
-              if (direction == null) {
-                direction = plotlist[i]['surveillance:direction'];
-              }
-            }
-    
-            if (direction == 'N') {
-              direction = 0;
-            } else if (direction == 'NE') {
-              direction = 45;
-            } else if (direction == 'E') {
-              direction = 90;
-            } else if (direction == 'SE') {
-              direction = 135;
-            } else if (direction == 'S') {
-              direction = 180;
-            } else if (direction == 'SW') {
-              direction = 225;
-            } else if (direction == 'W') {
-              direction = 270;
-            } else if (direction == 'NW') {
-              direction = 315;
-            }
-
-            if (direction !='' && isNumeric(direction)) {
-              direction = 90 - direction;
-              if (direction > 180) {
-                direction -= 360
-              } else if (direction < -180) {
-                direction += 360;
-              }
-              direction=(direction*207986.0)/11916720;
-
-              var angle = plotlist[i]['camera:angle'];
-              if (angle != null && isNumeric(angle)) {
-                if (angle < 0) {
-                  angle = -angle;
-                }
-                if (angle <= 15) {
-                  angle = 1;
-                } else {
-                  angle=Math.cos(((angle - 15)*207986.0)/11916720);
-                }
-              } else {
-                angle=1;
-              }
-
-              var line= [plotll];
-              var coefLat = (1.0/Math.cos(plotlist[i].lat * 3.14159 / 180));
-              for (a=-5 ; a <= 5 ; a+=2) {
-                var plotll = new L.LatLng(parseFloat(plotlist[i].lat) + 0.000063 * Math.sin(direction + a / 10) * cameraHeight * angle, 
-                                          parseFloat(plotlist[i].lon) + 0.000063 * Math.cos(direction + a / 10) * coefLat * cameraHeight * angle, 
-                                          true) ;
-                line.push(plotll);
-              }
-              var plotAngle = new L.Polygon(line, { color:'red', weight : 1, fillOpacity:0.1 });
-              map.addLayer(plotAngle);
-              plotlayers.push(plotAngle);
-            }
-
-          } else if (cameraType == 'dome' ) {
-              var plotAngle = new L.Circle(plotll, 7 * cameraHeight, { color:'red', weight : 1, fillOpacity:0.1 });
-              map.addLayer(plotAngle);
-              plotlayers.push(plotAngle);
-          }
-             
-
+       
           plotmark.data='<table class="popup-content">'
-                       +'<tr><td>id</td><td><a target="_blank" href="http://osm.org/browse/node/'
-                         +(plotlist[i].id)+'">' + (plotlist[i].id) + '</td></tr>'
-                       +'<tr><td>user osm</td><td>'+(plotlist[i].userid)+'</td></tr>'
+                       +'<tr><td>id</td><td>' + (plotlist[i].id) + '</td></tr>'
                        +'<tr><td>latitude</td><td>'+(plotlist[i].lat)+'</td></tr>'
                        +'<tr><td>longitude</td><td>'+(plotlist[i].lon)+'</td></tr>';
           for (x in plotlist[i]) {
