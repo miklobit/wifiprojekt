@@ -210,6 +210,8 @@ function stateChanged() {
             iconName = 'green';
           } else if (plotlist[i]['crypt'] == 'WPA2') {
             iconName = 'red';
+          } else if (plotlist[i]['crypt'] == 'WpaPsk') {
+            iconName = 'red';			
           } else if (plotlist[i]['crypt'] == 'Wep') {
             iconName = 'orange';
           } 
