@@ -1,0 +1,13 @@
+{"attribution":"<a href='https://www.osmapa.pl' target='_blank'>&copy; OSMapa.pl</a> <a class='mapbox-improve-map' href='http://www.openstreetmap.org/' target='_blank'>&copy; OpenStreetMap</a>",
+ "autoscale":true,
+ "bounds":[-180,-85,180,85],
+ "center":[0,0,3],
+ "description":"",
+ "id":"osmapa",
+ "maxzoom":19,
+ "minzoom":0,
+ "name":"OSMapa.pl",
+ "scheme":"xyz",
+ "tilejson":"2.0.0",
+ "tiles":["http://a.osm.trail.pl/osmapa.pl/{z}/{x}/{y}.png"],
+ "webpage":"http://osmapa.pl"}

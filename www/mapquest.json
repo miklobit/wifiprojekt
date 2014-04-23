@@ -1,0 +1,17 @@
+{   "tilejson": "2.0.0",
+    "autoscale":true,
+    "name": "MapQuest",
+    "description": "A free editable map of the whole world.",
+    "version": "1.0.0",
+    "attribution": "Tiles: <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <a class='mapbox-improve-map' href='http://www.openstreetmap.org/' target='_blank'>&copy; OpenStreetMap</a>",
+    "scheme": "xyz",
+    "tiles": [
+        "http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png",
+        "http://otile2.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png",
+        "http://otile3.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png"
+    ],
+    "minzoom": 0,
+    "maxzoom": 18,
+    "bounds": [ -180, -85, 180, 85 ],
+    "center":[0,0,3]
+}

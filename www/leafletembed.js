@@ -71,9 +71,15 @@ function permalink() {
 }
 
 // Layers
-var osmTiles;
-var mapQuestTiles;
+  var osmLayer = L.mapbox.tileLayer('./osm.json');
+  var osmapaLayer = L.mapbox.tileLayer('./osmapa.json');  
+  var mapquestLayer = L.mapbox.tileLayer('./mapquest.json'); 
 
+  var baseLayers = {
+	"OSM Mapnik": osmLayer,
+	"OSMapa": osmapaLayer,
+	"MapQuest": mapquestLayer
+  }; 
 
 function initmap() {
 
@@ -83,25 +89,16 @@ function initmap() {
     alert ("This browser does not support HTTP Request");
     return;
   }
-
-  // set up the map
-  map = new L.Map('map');
+ 
 
   // create the tile layers with correct attribution
   var permalink=' — <a href=#" onClick="permalink();return false;">Permalink</a>';
   var dataAttrib='Map data (c) <a href="http://www.osm.org" target="_blank">OpenStreetMap</a> contributors';
-
-  var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-  var osmAttrib=dataAttrib + permalink;
-  osmTiles = new L.TileLayer(osmUrl, {minZoom: 4, maxZoom: 18, attribution: osmAttrib});		
-  var mapQuestUrl='http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png'; 
-  var mapQuestAttrib='Tiles: <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> - ' + dataAttrib + permalink;
-  mapQuestTiles = new L.TileLayer(mapQuestUrl, {minZoom: 4, maxZoom: 18, attribution: mapQuestAttrib, subdomains: '1234'});		
-
-  var baseLayers = {
-    "MapQuest": mapQuestTiles,
-    "OpenStreetMap": osmTiles
-  };
+  
+    map = L.mapbox.map('map');	
+    L.control.locate().addTo(map);
+    L.control.layers(baseLayers).addTo(map);   
+  
 
   // start the map in default position
   map.setView(new L.LatLng(initialLat,initialLon),initialZoom);
@@ -111,11 +108,10 @@ function initmap() {
     map.locate( { setView:true });
   }
   if (initialLayer == 'osm') {
-    map.addLayer(osmTiles);
+    map.addLayer(osmLayer);
   } else {
-    map.addLayer(mapQuestTiles);
+    map.addLayer(mapquestLayer);
   }
-  L.control.layers(baseLayers, null, {position: 'topleft'}).addTo(map);
 
   askForPlots();
   map.on('moveend', onMapMove);

@@ -99,9 +99,12 @@
 <?php
   if ($showMap) {
 ?>
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />
-<!--[if lte IE 8]>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.ie.css" />
+
+
+<link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css' rel='stylesheet' />
+<link href='http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.css' rel='stylesheet' />
+<!--[if lt IE 9]>
+  <link href='http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.21.0/L.Control.Locate.ie.css' rel='stylesheet' />
 <![endif]-->
 <link rel="stylesheet" href="Icon_Label.css" />
 
@@ -168,7 +171,8 @@ html, body {
   }
 ?>
 </script>
-<script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
+<script src='http://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
+<script src='http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.js'></script>
 <script src="Icon_Label.js"></script>
 
 <div id="map"></div>
