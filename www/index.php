@@ -106,6 +106,7 @@
 <!--[if lt IE 9]>
   <link href='http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.21.0/L.Control.Locate.ie.css' rel='stylesheet' />
 <![endif]-->
+<link href='http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.2/leaflet.fullscreen.css' rel='stylesheet' />
 <link rel="stylesheet" href="Icon_Label.css" />
 
 <style>
@@ -173,6 +174,8 @@ html, body {
 </script>
 <script src='http://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
 <script src='http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.js'></script>
+<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.2/Leaflet.fullscreen.min.js'></script>
+
 <script src="Icon_Label.js"></script>
 
 <div id="map"></div>

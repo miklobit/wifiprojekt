@@ -98,7 +98,7 @@ function initmap() {
     map = L.mapbox.map('map');	
     L.control.locate().addTo(map);
     L.control.layers(baseLayers).addTo(map);   
-  
+    L.control.fullscreen().addTo(map); 
 
   // start the map in default position
   map.setView(new L.LatLng(initialLat,initialLon),initialZoom);
