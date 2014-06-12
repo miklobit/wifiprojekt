@@ -4,16 +4,6 @@
   require_once 'Mobile_Detect.php';
   $detect = new Mobile_Detect();
   $isMobile = $detect->isMobile(); 
-  $showMap=true;
-  $showText=true;
-
-  if ($isMobile) {
-    if (array_key_exists('infos', $_GET)) {
-      $showMap=false;
-    } else {
-      $showText=false;
-    }
-  }
 
   $language='en';
   $locale = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
@@ -88,7 +78,7 @@
   ?>
   <?php
     /* Disable unwanted scaling */
-    if ($isMobile && $showMap) {
+    if ($isMobile) {
   ?>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <?php
@@ -96,11 +86,6 @@
   ?>
 </head>
 <body>
-<?php
-  if ($showMap) {
-?>
-
-
 <link href='http://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css' rel='stylesheet' />
 <link href='http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.css' rel='stylesheet' />
 <!--[if lt IE 9]>
@@ -114,28 +99,10 @@ body {
     padding: 0;
     margin: 0;
 }
-<?php
-  if ($isMobile) {
-    /* Set the map in fullscreen mode on mobile devices */
-?>
 html, body, #map {
     height: 100%;
 }
-<?php
-  } else {
-    /* Keep some space for the caption on other devices */
-?>
-html, body {
-    height: 100%;
-    width: 100%;
-}
-#map {
-    height: 90%;
-    width: 100%;
-}
-<?php
-  }
-?>
+
 .sweet-deal-label {
   background-color: #FE57A1;
   background-color: rgba(254, 87, 161, 0.66);
@@ -175,49 +142,9 @@ html, body {
 <script src='http://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
 <script src='http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.js'></script>
 <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.2/Leaflet.fullscreen.min.js'></script>
-
 <script src="Icon_Label.js"></script>
-
 <div id="map"></div>
-
-<?php
-if ($isMobile) {
-?>
-<div id="moreInfo" style="position:fixed;top:5px;right:5px">
-<a href="index.php?infos=yes"/><img src="images/infos.png" width="20"/></a>
-</div>
-<?php
-}
-?>
-
 <script src="leafletembed.js"></script>
-
-<?php
-}  /* if ($showMap) */
-
-if ($showText) {
-  if ($isMobile) {
-?>
-<div style="width:100%;text-align:center;background:SeaGreen"/>
-<a href="index.php" style="color:white;font-size:200%">Back to the map</a>
-</div>
-<?php    
-} 
-?>
-
-<div style="width:100%;overflow:auto">
-<?php
-if ($language == "fr") { 
-  include "text_fr.php";
-} else {
-  include "text_en.php";
-}
-?>
-</div>
-<?php
-} /* if ($showText */
-?>
-
 </body>
 </html>
 <?php

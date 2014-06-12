@@ -4,6 +4,18 @@
 
    define('MAX_POINTS_FOR_QUICKHULL', 3000);
 
+	class BindParam{ 
+		private $values = array(), $types = ''; 
+		
+		public function add( $type, &$value ){ 
+			$this->values[] = $value; 
+			$this->types .= $type; 
+		} 
+		
+		public function get(){ 
+			return array_merge(array($this->types), $this->values); 
+		} 
+	}    
    
    class OsmPoint {
      var $id;
@@ -217,6 +229,8 @@ function writeToFile($file, $content){
 
    /* Check the parameters */
 
+   /* debugger */
+   
    $debug='no';
    if (array_key_exists('debug', $_GET)) {
      $debug = $_GET['debug'];
@@ -224,7 +238,7 @@ function writeToFile($file, $content){
        $debug='no';
      }
    }
-
+   
    if (! array_key_exists('zoom', $_GET) || ! array_key_exists('bbox', $_GET)
        || ! array_key_exists('width', $_GET) || ! array_key_exists('height', $_GET)) {
      header('Content-type: application/json');
@@ -281,6 +295,15 @@ function writeToFile($file, $content){
      exit;
    }
 
+    /* filters (by exclude values) */
+   
+   /* crypt */
+   
+   $ex_crypt = array();
+   if (array_key_exists('ex_crypt', $_GET)) {
+		$ex_crypt = explode(',',$_GET['ex_crypt']);      
+   }  
+   
    $lonMin = $bbox[0];
    $lonMax = $bbox[2];
 
@@ -310,13 +333,14 @@ function writeToFile($file, $content){
    $divHeight= $latHeight / $divHCount;
    $divDiag2=($divWidth * $divWidth) + ($divHeight * $divHeight);
 
-   $mysqli = new mysqli($mysql_host, $mysql_user, $mysql_passwd, $mysql_db, $mysql_port);
-   if($mysqli->connect_errno) {
-       header('Content-type: application/json');
-//     header('Content-type: text/html');
-     $result='{"error":"Error while connecting to db : ' . $mysqli->error . '"}';
-     echo $result;
-     exit;
+   try{
+		$pdo = new PDO('mysql:host='.MYSQL_HOST.';dbname='.MYSQL_DB.';port='.MYSQL_PORT, MYSQL_USER, MYSQL_PASSWD );
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);		
+   } catch(PDOException $e){
+        header('Content-type: application/json');
+		$result='{"error":"Error while connecting to db : ' . $e->getMessage() . '"}';
+		echo $result;
+        exit;
    }
 
    /* Select the nodes to be returned, and cluster them on a grid if necessary */
@@ -351,6 +375,16 @@ function writeToFile($file, $content){
        $rqtLonMax -= 360;
      }
    }
+   
+   if( count($ex_crypt) > 0) {
+      $sql .= " AND NOT crypt in (";
+      foreach ($ex_crypt as $val) {
+        $sql .= '?';
+        if (!($val === end($ex_crypt)))
+           $sql .= ',';       		   
+      }	  
+	  $sql .= ")";
+   }
 
    $rqtLonMin = bcmul($rqtLonMin, 10000000, 0);
    $rqtLonMax = bcmul($rqtLonMax, 10000000, 0);
@@ -360,14 +394,20 @@ function writeToFile($file, $content){
    $resArray = array();
    $nbFetch=0;
 
-   if ($stmt = $mysqli->prepare($sql)) {
-     $stmt->bind_param('iiii', $rqtLatMin, $rqtLatMax, $rqtLonMin, $rqtLonMax);
-
+   try{
+	 $stmt = $pdo->prepare($sql);
+	 $stmt->bindValue(1, $rqtLatMin, PDO::PARAM_INT);
+	 $stmt->bindValue(2, $rqtLatMax, PDO::PARAM_INT);
+	 $stmt->bindValue(3, $rqtLonMin, PDO::PARAM_INT);
+	 $stmt->bindValue(4, $rqtLonMax, PDO::PARAM_INT);	
+	 foreach ($ex_crypt as $k => $v)
+		$stmt->bindValue(($k+5), $v, PDO::PARAM_STR);
+	 		 
      $stmt->execute();
 
-     $stmt->bind_result($id, $latitude, $longitude, $ssid, $bssid, $crypt, $mode, $kanal, $rxl);
-
-     while ($stmt->fetch()) {
+     while ($row = $stmt -> fetch()) {
+	   extract($row);
+  	 
        $nbFetch++;
 
        $latitude = bcdiv($latitude, 10000000, 7);
@@ -408,16 +448,16 @@ function writeToFile($file, $content){
        }
      }
      
-     $stmt->close();
+	$stmt -> closeCursor();
 
-   } else {
-     $mysqli->close();
-     header('Content-type: application/json');
-     $resultat='{"error":"Error preparing sql request : ' . $mysqli->error . '"}';
-     echo $resultat;
-     exit;
-   }
-     
+   } catch(PDOException $e){
+		$stmt -> closeCursor();   
+        header('Content-type: application/json');
+		$result='{"error":"Error preparing sql request : ' . $e->getMessage() . '"}';
+		echo $result;
+        exit;
+   }	 
+	      
 
    /* Unify some clusters if nodes center are near */  
    $pointsCount = 0;
@@ -523,8 +563,6 @@ function writeToFile($file, $content){
 
    $resultat = $resultat . ']';
 
-   $mysqli->close();
-
-   header('Content-type: application/json; Charset : utf-8');
+ //  header('Content-type: application/json; Charset : utf-8');
    echo $resultat;
 ?>
