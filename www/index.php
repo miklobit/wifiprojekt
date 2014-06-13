@@ -168,7 +168,7 @@ html, body, #map {
 <script src="L.Control.Sidebar.js"></script>
 <script src="L.Control.EasyButtons.js"></script>
 <script src="Icon_Label.js"></script>
-    <div id="filter">
+    <div id="filters">
         <h1>Crypt</h1>
    </div>
 <div id="map"></div>

@@ -1,5 +1,5 @@
 var map;
-var filters;
+var exCrypt = [];
 var ajaxRequest;
 var plotlist;
 var plotlayers=[];
@@ -116,14 +116,18 @@ function initmap() {
  
 
   // sidebar activated with filter button
-	var sidebar = L.control.sidebar('filter', {
+	var sidebar = L.control.sidebar('filters', {
 		closeButton: true,
 		position: 'right'
 	});
 	map.addControl(sidebar);
 	
-	
-	
+	var cryptFilters = document.getElementById('filters');	
+	addFilterItem(cryptFilters,exCrypt,'Open',onChangeFilters) ;
+	addFilterItem(cryptFilters,exCrypt,'Wep',onChangeFilters) ;	
+	addFilterItem(cryptFilters,exCrypt,'WPA2',onChangeFilters) ;
+	addFilterItem(cryptFilters,exCrypt,'WpaPsk',onChangeFilters) ;
+	addFilterItem(cryptFilters,exCrypt,'?',onChangeFilters) ;	
 
 	/*
 	setTimeout(function () {
@@ -144,6 +148,44 @@ function initmap() {
 
 }
 
+function addFilterItem(container,list,item_label,listener) {
+
+    var item = container.appendChild(document.createElement('div'));
+    var checkbox = item.appendChild(document.createElement('input'));
+    var label = item.appendChild(document.createElement('label'));
+
+    checkbox.type = 'checkbox';
+    checkbox.id = item_label;
+    checkbox.checked = true;
+    // create a label to the right of the checkbox with explanatory text
+    label.innerHTML = item_label;
+    label.setAttribute('for', item_label);
+    // Whenever a person clicks on this checkbox, call the update().
+    checkbox.addEventListener('change', listener);
+    list.push(checkbox);  
+}
+
+function onChangeFilters() {
+    askForPlots();
+ //   alert(exCryptSring());
+}
+
+function exCryptSring() {
+  var param = '';
+
+  for (var i = 0; i < exCrypt.length; i++) {
+      if (!exCrypt[i].checked) {
+	    if(param=='')
+		  param = exCrypt[i].id
+		else
+          param = param + ',' + exCrypt[i].id;		
+	  }
+  }  
+  if(param != '')
+     param = '&ex_crypt=' + param ;
+  return param ;
+}
+
 function onMapMove(e) { askForPlots(); }
 
 function getXmlHttpObject() {
@@ -158,7 +200,7 @@ function askForPlots() {
   var minll=bounds.getSouthWest();
   var maxll=bounds.getNorthEast();
   var size=map.getSize();
-  var msg='getwifi.php?bbox='+minll.lng+','+minll.lat+','+maxll.lng+','+maxll.lat+'&zoom='+map.getZoom()+'&width='+size.x+'&height='+size.y+'&ex_crypt=?,WpaPsk,WPA2,Wep'+'&debug='+debug;
+  var msg='getwifi.php?bbox='+minll.lng+','+minll.lat+','+maxll.lng+','+maxll.lat+'&zoom='+map.getZoom()+'&width='+size.x+'&height='+size.y+exCryptSring()+'&debug='+debug;
   ajaxRequest.onreadystatechange = stateChanged;
   ajaxRequest.open('GET', msg, true);
   ajaxRequest.send(null);
