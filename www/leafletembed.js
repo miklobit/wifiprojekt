@@ -1,4 +1,5 @@
 var map;
+var filters;
 var ajaxRequest;
 var plotlist;
 var plotlayers=[];
@@ -112,7 +113,32 @@ function initmap() {
   } else {
     map.addLayer(mapquestLayer);
   }
+ 
 
+  // sidebar activated with filter button
+	var sidebar = L.control.sidebar('filter', {
+		closeButton: true,
+		position: 'right'
+	});
+	map.addControl(sidebar);
+	
+	
+	
+
+	/*
+	setTimeout(function () {
+		sidebar.show();
+	}, 500);
+	*/
+	
+  // filter button 
+	var filterButton = L.easyButton('fa-filter', 
+              function (){
+                sidebar.toggle();
+              },
+             'Toggle filters'
+            );
+ 
   askForPlots();
   map.on('moveend', onMapMove);
 
@@ -132,7 +158,7 @@ function askForPlots() {
   var minll=bounds.getSouthWest();
   var maxll=bounds.getNorthEast();
   var size=map.getSize();
-  var msg='getwifi.php?bbox='+minll.lng+','+minll.lat+','+maxll.lng+','+maxll.lat+'&zoom='+map.getZoom()+'&width='+size.x+'&height='+size.y+'&debug='+debug;
+  var msg='getwifi.php?bbox='+minll.lng+','+minll.lat+','+maxll.lng+','+maxll.lat+'&zoom='+map.getZoom()+'&width='+size.x+'&height='+size.y+'&ex_crypt=?,WpaPsk,WPA2,Wep'+'&debug='+debug;
   ajaxRequest.onreadystatechange = stateChanged;
   ajaxRequest.open('GET', msg, true);
   ajaxRequest.send(null);
